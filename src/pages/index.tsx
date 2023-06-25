@@ -1,10 +1,15 @@
 import { useState, useEffect, useCallback, useRef } from 'react'
-import { useRecoilState } from 'recoil'
+import { useRecoilState, useSetRecoilState, useRecoilValue } from 'recoil'
 import Link from 'next/link'
 
 import { POKEMON_LIST_URL } from '@/APIEndpoints'
 import CardSkeleton from '@/components/CardSkeleton'
-import { pokemonState, offsetState } from '@/recoil/atoms/pokemonAtom'
+import {
+  pokemonState,
+  offsetState,
+  queryState,
+} from '@/recoil/atoms/pokemonAtom'
+import { filteredPokemonState } from '@/recoil/selectors/pokemonSelector'
 import { IPokemonAPIResponse } from '@/types'
 import { getPokemonId } from '@/utils'
 
@@ -12,31 +17,35 @@ const FETCH_SIZE = 8
 
 export default function Home() {
   const observerTarget = useRef(null)
-  const [pokemons, setPokemons] = useRecoilState(pokemonState)
+  const pokemons = useRecoilValue(filteredPokemonState)
+  const setPokemons = useSetRecoilState(pokemonState)
+
+  const [query, setQuery] = useRecoilState(queryState)
   const [offset, setOffset] = useRecoilState(offsetState)
 
   const [isLoading, setIsLoading] = useState(false)
   const [isError, setIsError] = useState(false)
-  // const [query, setQuery] = useState('')
   const [maxPokemon, setMaxPokemon] = useState<number | null>(null)
 
   const fetchData = useCallback(
     async (offset: number) => {
       try {
-        setIsLoading(true)
-        const res = await fetch(
-          `${POKEMON_LIST_URL}?` +
-            new URLSearchParams({
-              limit: String(FETCH_SIZE),
-              offset: String(offset),
-            })
-        )
-        const pokemonAPI: IPokemonAPIResponse = await res.json()
-        if (maxPokemon !== pokemonAPI.count) {
-          setMaxPokemon(pokemonAPI.count)
+        if (query.length === 0) {
+          setIsLoading(true)
+          const res = await fetch(
+            `${POKEMON_LIST_URL}?` +
+              new URLSearchParams({
+                limit: String(FETCH_SIZE),
+                offset: String(offset),
+              })
+          )
+          const pokemonAPI: IPokemonAPIResponse = await res.json()
+          if (maxPokemon !== pokemonAPI.count) {
+            setMaxPokemon(pokemonAPI.count)
+          }
+          setPokemons([...pokemons, ...pokemonAPI.results])
+          setOffset((prevState) => prevState + FETCH_SIZE)
         }
-        setPokemons([...pokemons, ...pokemonAPI.results])
-        setOffset((prevState) => prevState + FETCH_SIZE)
       } catch (error) {
         console.error(error)
         setIsError(true)
@@ -47,8 +56,14 @@ export default function Home() {
         }, 1000)
       }
     },
-    [pokemons, maxPokemon, setOffset, setPokemons]
+    [pokemons, maxPokemon, setOffset, setPokemons, query.length]
   )
+
+  useEffect(() => {
+    return () => {
+      setQuery('')
+    }
+  }, [setQuery])
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -75,6 +90,12 @@ export default function Home() {
 
   return (
     <>
+      <input
+        type='text'
+        placeholder='Search Pokemon'
+        onChange={(e) => setQuery(e.target.value)}
+        className='w-[300px] mb-4 bg-slate-100 border border-slate-400 rounded p-2'
+      />
       {isError ? (
         <div className='text-center'>
           <h1 className='text-4xl'>An error occured</h1>
@@ -89,7 +110,7 @@ export default function Home() {
               >
                 <Link
                   href={getPokemonId(pokemon.url)}
-                  className='p-2 block text-center'
+                  className='p-2 block text-center lg:hover:text-white'
                 >
                   {pokemon.name}
                 </Link>
