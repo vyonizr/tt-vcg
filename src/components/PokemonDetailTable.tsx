@@ -7,12 +7,11 @@ import {
   Sprites,
   Option,
   IEvolutionAPIResponse,
-  Chain,
-  Species,
   CustomSpecies,
 } from '@/types'
 import { getPokemonEvoChainURL } from '@/APIEndpoints'
 import { extractEvolutions, convertToTitleCase, modulo } from '@/utils'
+import { ERROR_MESSAGE } from '@/constants'
 
 interface PokemonDetailProps {
   pokemon: IPokemonDetailAPIResponse | null
@@ -35,14 +34,24 @@ export default function PokemonDetailTable({ pokemon }: PokemonDetailProps) {
       try {
         setIsLoading(true)
         const response = await fetch(getPokemonEvoChainURL(pokemonId))
+        if (response.status === 404) {
+          throw new Error(ERROR_MESSAGE.NOT_FOUND)
+        }
         const responseJSON: IEvolutionAPIResponse = await response.json()
 
         const evolutionList: CustomSpecies[] = []
         extractEvolutions(responseJSON.chain, evolutionList)
         setEvolutions(evolutionList)
       } catch (error) {
-        console.error(error)
-        setError(true)
+        if (
+          error instanceof Error &&
+          error.message === ERROR_MESSAGE.NOT_FOUND
+        ) {
+          setEvolutions([])
+        } else {
+          console.error(error)
+          setError(true)
+        }
       } finally {
         setIsLoading(false)
       }
