@@ -1,16 +1,12 @@
 import { useState, useEffect } from 'react'
 import { useRouter } from 'next/router'
-import dynamic from 'next/dynamic'
 import Link from 'next/link'
 
-import { IPokemonDetailAPIResponse } from '@/types'
 import { getPokemonDetailURL } from '@/APIEndpoints'
+import { IPokemonDetailAPIResponse } from '@/types'
 
 import PokemonDetailTableSkeleton from '@/components/PokemonDetailTableSkeleton'
-
-const PokemonDetailTable = dynamic(
-  () => import('@/components/PokemonDetailTable')
-)
+import PokemonDetailTable from '@/components/PokemonDetailTable'
 
 export default function PokemonDetail() {
   const route = useRouter()
