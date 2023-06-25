@@ -1,8 +1,9 @@
 import { atom } from 'recoil'
+import { Pokemon } from '@/types'
 
 export const pokemonState = atom({
   key: 'PokemonList',
-  default: [],
+  default: [] as Pokemon[],
 })
 
 export const queryState = atom({

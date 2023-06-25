@@ -1,17 +1,20 @@
 import { useState, useEffect, useCallback, useRef } from 'react'
+import { useRecoilState } from 'recoil'
 import Link from 'next/link'
 
 import { POKEMON_LIST_URL } from '@/APIEndpoints'
 import CardSkeleton from '@/components/CardSkeleton'
-import { IPokemonAPIResponse, Pokemon } from '@/types'
+import { pokemonState, offsetState } from '@/recoil/atoms/pokemonAtom'
+import { IPokemonAPIResponse } from '@/types'
 import { getPokemonId } from '@/utils'
 
 const FETCH_SIZE = 8
 
 export default function Home() {
   const observerTarget = useRef(null)
-  const [pokemons, setPokemons] = useState<Pokemon[]>([])
-  const [offset, setOffset] = useState(0)
+  const [pokemons, setPokemons] = useRecoilState(pokemonState)
+  const [offset, setOffset] = useRecoilState(offsetState)
+
   const [isLoading, setIsLoading] = useState(false)
   const [isError, setIsError] = useState(false)
   // const [query, setQuery] = useState('')
@@ -38,12 +41,13 @@ export default function Home() {
         console.error(error)
         setIsError(true)
       } finally {
+        // intentionally created to simulate loading
         setTimeout(() => {
           setIsLoading(false)
         }, 1000)
       }
     },
-    [pokemons, maxPokemon]
+    [pokemons, maxPokemon, setOffset, setPokemons]
   )
 
   useEffect(() => {
