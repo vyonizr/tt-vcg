@@ -16,8 +16,6 @@ export const getServerSideProps: GetServerSideProps<{
     `${POKEMON_LIST_URL}?` + new URLSearchParams({ limit: '8', offset: '0' })
   )
   const pokemonAPI = await res.json()
-  console.log(pokemonAPI)
-  console.log(getPokemonId(pokemonAPI.results[0].url))
   return { props: { pokemonAPI } }
 }
 

@@ -6,9 +6,10 @@ import Link from 'next/link'
 import { IPokemonDetailAPIResponse } from '@/types'
 import { getPokemonDetailURL } from '@/APIEndpoints'
 
+import PokemonDetailTableSkeleton from '@/components/PokemonDetailTableSkeleton'
+
 const PokemonDetailTable = dynamic(
-  () => import('@/components/PokemonDetailTable'),
-  { suspense: true }
+  () => import('@/components/PokemonDetailTable')
 )
 
 export default function PokemonDetail() {
@@ -31,7 +32,10 @@ export default function PokemonDetail() {
         console.error(error)
         setIsDetailError(true)
       } finally {
-        setIsDetailLoading(false)
+        // intentionally created to simulate loading
+        setTimeout(() => {
+          setIsDetailLoading(false)
+        }, 1000)
       }
     }
 
@@ -48,7 +52,7 @@ export default function PokemonDetail() {
           <h1 className='text-4xl'>An error occured</h1>
         </div>
       ) : isDetailLoading ? (
-        <h1>Loading</h1>
+        <PokemonDetailTableSkeleton />
       ) : (
         <PokemonDetailTable pokemon={pokemonDetail} />
       )}

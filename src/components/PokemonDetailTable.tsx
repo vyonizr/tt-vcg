@@ -106,8 +106,6 @@ export default function PokemonDetailTable({ pokemon }: PokemonDetailProps) {
     )
   }
 
-  console.log(viewSpritesOptions, selectedSpriteIndex, '<== viewSpritesOptions')
-
   return (
     <>
       {pokemon !== null ? (
