@@ -1,3 +1,17 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer components {
+  td {
+    @apply align-top py-1;
+  }
+
+  ul, ol {
+    @apply list-inside;
+  }
+
+  a {
+    @apply text-blue-500 lg:hover:text-blue-700 underline lg:no-underline lg:hover:underline;
+  }
+}
