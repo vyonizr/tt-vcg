@@ -208,7 +208,12 @@ export default function PokemonDetailTable({ pokemon }: PokemonDetailProps) {
               <td>
                 <ul>
                   {pokemon.moves.slice(0, 9).map((move) => (
-                    <li key={move.move.name}>{move.move.name}</li>
+                    <li
+                      className={pokemon.moves.length > 1 ? 'list-disc' : ''}
+                      key={move.move.name}
+                    >
+                      {move.move.name}
+                    </li>
                   ))}
                 </ul>
               </td>
