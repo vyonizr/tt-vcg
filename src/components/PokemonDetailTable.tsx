@@ -2,6 +2,9 @@ import { useState, useEffect, useMemo } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
+
+import { getPokemonEvoChainURL } from '@/APIEndpoints'
+import { ERROR_MESSAGE } from '@/constants'
 import {
   IPokemonDetailAPIResponse,
   Sprites,
@@ -9,9 +12,7 @@ import {
   IEvolutionAPIResponse,
   CustomSpecies,
 } from '@/types'
-import { getPokemonEvoChainURL } from '@/APIEndpoints'
 import { extractEvolutions, convertToTitleCase, modulo } from '@/utils'
-import { ERROR_MESSAGE } from '@/constants'
 
 interface PokemonDetailProps {
   pokemon: IPokemonDetailAPIResponse | null
@@ -53,7 +54,10 @@ export default function PokemonDetailTable({ pokemon }: PokemonDetailProps) {
           setError(true)
         }
       } finally {
-        setIsLoading(false)
+        // intentionally created to simulate loading
+        setTimeout(() => {
+          setIsLoading(false)
+        }, 1000)
       }
     }
 
@@ -178,7 +182,11 @@ export default function PokemonDetailTable({ pokemon }: PokemonDetailProps) {
               <td>Evolution</td>
               <td>
                 {isLoading ? (
-                  <p>Loading...</p>
+                  <div className='animate-pulse'>
+                    <div className='bg-gray-300 w-full h-6' />
+                    <div className='bg-gray-300 w-full h-6 my-2' />
+                    <div className='bg-gray-300 w-full h-6' />
+                  </div>
                 ) : error ? (
                   <p>Error</p>
                 ) : (
