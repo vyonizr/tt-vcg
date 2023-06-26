@@ -12,11 +12,12 @@ import {
 import { filteredPokemonState } from '@/recoil/selectors/pokemonSelector'
 import { IPokemonAPIResponse } from '@/types'
 import { getPokemonId } from '@/utils'
+import useIntersectionObserver from '@/hooks/useIntersectionObserver'
 
 const FETCH_SIZE = 8
 
 export default function Home() {
-  const observerTarget = useRef(null)
+  const targetRef = useRef(null)
   const pokemons = useRecoilValue(filteredPokemonState)
   const setPokemons = useSetRecoilState(pokemonState)
 
@@ -28,7 +29,7 @@ export default function Home() {
   const [maxPokemon, setMaxPokemon] = useState<number | null>(null)
 
   const fetchData = useCallback(
-    async (offset: number) => {
+    async (paramOffset: number) => {
       try {
         if (query.length === 0) {
           setIsLoading(true)
@@ -36,7 +37,7 @@ export default function Home() {
             `${POKEMON_LIST_URL}?` +
               new URLSearchParams({
                 limit: String(FETCH_SIZE),
-                offset: String(offset),
+                offset: String(paramOffset),
               })
           )
           const pokemonAPI: IPokemonAPIResponse = await res.json()
@@ -44,7 +45,7 @@ export default function Home() {
             setMaxPokemon(pokemonAPI.count)
           }
           setPokemons([...pokemons, ...pokemonAPI.results])
-          setOffset((prevState) => prevState + FETCH_SIZE)
+          setOffset(paramOffset + FETCH_SIZE)
         }
       } catch (error) {
         console.error(error)
@@ -65,28 +66,15 @@ export default function Home() {
     }
   }, [setQuery])
 
+  const { isIntersecting } = useIntersectionObserver(targetRef, {
+    threshold: 1,
+  })
+
   useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        if (entries[0].isIntersecting) {
-          fetchData(offset)
-        }
-      },
-      { threshold: 1 }
-    )
-
-    const currentObserverTarget = observerTarget.current
-
-    if (currentObserverTarget) {
-      observer.observe(currentObserverTarget)
+    if (isIntersecting) {
+      fetchData(offset)
     }
-
-    return () => {
-      if (currentObserverTarget) {
-        observer.unobserve(currentObserverTarget)
-      }
-    }
-  }, [observerTarget, fetchData, offset])
+  }, [targetRef, fetchData, offset, isIntersecting])
 
   return (
     <>
@@ -117,7 +105,7 @@ export default function Home() {
               </li>
             ))}
             {isLoading ? <CardSkeleton /> : null}
-            <li ref={observerTarget}></li>
+            <li ref={targetRef}></li>
           </ul>
         </>
       )}
