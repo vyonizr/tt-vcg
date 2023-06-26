@@ -83,6 +83,7 @@ export default function Home() {
         placeholder='Search Pokemon'
         onChange={(e) => setQuery(e.target.value)}
         className='w-[300px] mb-4 bg-slate-100 border border-slate-400 rounded p-2'
+        data-testid='query_input'
       />
       {isError ? (
         <div className='text-center'>
