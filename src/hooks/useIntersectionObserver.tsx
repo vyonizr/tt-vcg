@@ -5,6 +5,7 @@ interface IntersectionObserverOptions {
 }
 
 // https://www.30secondsofcode.org/react/s/use-intersection-observer/
+// https://developer.mozilla.org/en-US/docs/Web/API/Intersection_Observer_API
 const useIntersectionObserver = (
   ref: React.MutableRefObject<HTMLElement | null>,
   options: IntersectionObserverOptions
