@@ -124,22 +124,22 @@ export default function PokemonDetailTable({ pokemon }: PokemonDetailProps) {
   return (
     <ErrorBoundary>
       {pokemon !== null ? (
-        <table className='w-[280px]'>
+        <table className="w-[280px]">
           <tbody>
             <tr>
               <th colSpan={2}>
-                <h1 className='text-xl'>{convertToTitleCase(pokemon.name)}</h1>
+                <h1 className="text-xl">{convertToTitleCase(pokemon.name)}</h1>
               </th>
             </tr>
             <tr>
-              <td colSpan={2} className='pb-4'>
-                <div className='grid grid-cols-[2rem_1fr_2rem]'>
+              <td colSpan={2} className="pb-4">
+                <div className="grid grid-cols-[2rem_1fr_2rem]">
                   <button
                     onClick={() => handleCycleSprite(NAVIGATION.PREVIOUS)}
                   >
-                    {'<'}
+                    {"<"}
                   </button>
-                  <div className='flex flex-col items-center'>
+                  <div className="flex flex-col items-center">
                     {viewSpritesOptions[selectedSpriteIndex] &&
                     viewSpritesOptions[selectedSpriteIndex].value ? (
                       <Image
@@ -152,7 +152,7 @@ export default function PokemonDetailTable({ pokemon }: PokemonDetailProps) {
                     <p>{viewSpritesOptions[selectedSpriteIndex].label}</p>
                   </div>
                   <button onClick={() => handleCycleSprite(NAVIGATION.NEXT)}>
-                    {'>'}
+                    {">"}
                   </button>
                 </div>
               </td>
@@ -172,7 +172,7 @@ export default function PokemonDetailTable({ pokemon }: PokemonDetailProps) {
                   {pokemon.types.map((type) => (
                     <li
                       key={type.type.name}
-                      className={evolutions.length > 1 ? 'list-disc' : ''}
+                      className={evolutions.length > 1 ? "list-disc" : ""}
                     >
                       {convertToTitleCase(type.type.name)}
                     </li>
@@ -184,21 +184,21 @@ export default function PokemonDetailTable({ pokemon }: PokemonDetailProps) {
               <td>Evolution</td>
               <td>
                 {isLoading ? (
-                  <div className='animate-pulse'>
-                    <div className='bg-gray-300 w-full h-6' />
-                    <div className='bg-gray-300 w-full h-6 my-2' />
-                    <div className='bg-gray-300 w-full h-6' />
+                  <div className="animate-pulse">
+                    <div className="h-6 w-full bg-gray-300" />
+                    <div className="my-2 h-6 w-full bg-gray-300" />
+                    <div className="h-6 w-full bg-gray-300" />
                   </div>
                 ) : error ? (
                   <p>Error</p>
                 ) : (
                   <>
                     {evolutions.length > 0 ? (
-                      <ol className='list-inside'>
+                      <ol className="list-inside">
                         {evolutions.map((species, index) => (
                           <li
                             className={
-                              evolutions.length > 1 ? 'list-decimal' : ''
+                              evolutions.length > 1 ? "list-decimal" : ""
                             }
                             key={index}
                           >
@@ -219,7 +219,7 @@ export default function PokemonDetailTable({ pokemon }: PokemonDetailProps) {
                 <ul>
                   {pokemon.moves.slice(0, 10).map((move) => (
                     <li
-                      className={pokemon.moves.length > 1 ? 'list-disc' : ''}
+                      className={pokemon.moves.length > 1 ? "list-disc" : ""}
                       key={move.move.name}
                     >
                       {convertToTitleCase(move.move.name)}
@@ -232,5 +232,5 @@ export default function PokemonDetailTable({ pokemon }: PokemonDetailProps) {
         </table>
       ) : null}
     </ErrorBoundary>
-  )
+  );
 }

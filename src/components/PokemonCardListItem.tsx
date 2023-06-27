@@ -11,13 +11,13 @@ export default function PokemonCardListItem({
   pokemon,
 }: PokemonCardListItemProps) {
   return (
-    <li className='bg-slate-200 rounded lg:hover:bg-slate-600 lg:hover:text-white'>
+    <li className="rounded bg-slate-200 lg:hover:bg-slate-600 lg:hover:text-white">
       <Link
         href={getPokemonId(pokemon.url)}
-        className='p-2 block text-center lg:hover:text-white'
+        className="block p-2 text-center lg:hover:text-white"
       >
         {convertToTitleCase(pokemon.name)}
       </Link>
     </li>
-  )
+  );
 }

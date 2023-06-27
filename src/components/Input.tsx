@@ -11,11 +11,11 @@ export default function Input({
 }: InputProps) {
   return (
     <input
-      type='text'
+      type="text"
       placeholder={placeholder}
       onChange={onChange}
-      className='w-[300px] mb-4 bg-slate-100 border border-slate-400 rounded p-2'
+      className="mb-4 w-[300px] rounded border border-slate-400 bg-slate-100 p-2"
       data-testid={testId}
     />
-  )
+  );
 }

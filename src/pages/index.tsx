@@ -82,17 +82,17 @@ export default function Home() {
   return (
     <ErrorBoundary>
       <Input
-        placeholder='Search Pokemon'
+        placeholder="Search Pokemon"
         onChange={(e) => setQuery(e.target.value)}
-        data-testid='query_input'
+        data-testid="query_input"
       />
       {isError ? (
-        <div className='text-center'>
-          <h1 className='text-4xl'>An error occured</h1>
+        <div className="text-center">
+          <h1 className="text-4xl">An error occured</h1>
         </div>
       ) : (
         <>
-          <ul className='grid grid-cols-2 gap-2 w-[300px]'>
+          <ul className="grid w-[300px] grid-cols-2 gap-2">
             {pokemons.map((pokemon) => (
               <PokemonCardListItem key={pokemon.name} pokemon={pokemon} />
             ))}
@@ -102,5 +102,5 @@ export default function Home() {
         </>
       )}
     </ErrorBoundary>
-  )
+  );
 }
