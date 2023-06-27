@@ -1,10 +1,13 @@
 import { useState, useEffect, useCallback, useRef } from 'react'
 import { useRecoilState, useSetRecoilState, useRecoilValue } from 'recoil'
-import Link from 'next/link'
 
 import { POKEMON_LIST_URL } from '@/APIEndpoints'
+
 import CardSkeleton from '@/components/CardSkeleton'
 import Input from '@/components/Input'
+import PokemonCardListItem from '@/components/PokemonCardListItem'
+
+import useIntersectionObserver from '@/hooks/useIntersectionObserver'
 import {
   pokemonState,
   offsetState,
@@ -12,8 +15,6 @@ import {
 } from '@/recoil/atoms/pokemonAtom'
 import { filteredPokemonState } from '@/recoil/selectors/pokemonSelector'
 import { IPokemonAPIResponse } from '@/types'
-import { getPokemonId, convertToTitleCase } from '@/utils'
-import useIntersectionObserver from '@/hooks/useIntersectionObserver'
 
 const FETCH_SIZE = 8
 
@@ -92,17 +93,7 @@ export default function Home() {
         <>
           <ul className='grid grid-cols-2 gap-2 w-[300px]'>
             {pokemons.map((pokemon) => (
-              <li
-                key={pokemon.name}
-                className='bg-slate-200 rounded lg:hover:bg-slate-600 lg:hover:text-white'
-              >
-                <Link
-                  href={getPokemonId(pokemon.url)}
-                  className='p-2 block text-center lg:hover:text-white'
-                >
-                  {convertToTitleCase(pokemon.name)}
-                </Link>
-              </li>
+              <PokemonCardListItem key={pokemon.name} pokemon={pokemon} />
             ))}
             {isLoading ? <CardSkeleton /> : null}
             <li ref={targetRef}></li>
