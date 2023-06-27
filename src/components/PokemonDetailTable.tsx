@@ -14,6 +14,8 @@ import {
 } from '@/types'
 import { extractEvolutions, convertToTitleCase, modulo } from '@/utils'
 
+import ErrorBoundary from '@/components/ErrorBoundary'
+
 interface PokemonDetailProps {
   pokemon: IPokemonDetailAPIResponse | null
 }
@@ -120,7 +122,7 @@ export default function PokemonDetailTable({ pokemon }: PokemonDetailProps) {
   }
 
   return (
-    <>
+    <ErrorBoundary>
       {pokemon !== null ? (
         <table className='w-[280px]'>
           <tbody>
@@ -229,6 +231,6 @@ export default function PokemonDetailTable({ pokemon }: PokemonDetailProps) {
           </tbody>
         </table>
       ) : null}
-    </>
+    </ErrorBoundary>
   )
 }

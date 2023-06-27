@@ -4,6 +4,7 @@ import { useRecoilState, useSetRecoilState, useRecoilValue } from 'recoil'
 import { POKEMON_LIST_URL } from '@/APIEndpoints'
 
 import CardSkeleton from '@/components/CardSkeleton'
+import ErrorBoundary from '@/components/ErrorBoundary'
 import Input from '@/components/Input'
 import PokemonCardListItem from '@/components/PokemonCardListItem'
 
@@ -79,7 +80,7 @@ export default function Home() {
   }, [targetRef, fetchData, offset, isIntersecting])
 
   return (
-    <>
+    <ErrorBoundary>
       <Input
         placeholder='Search Pokemon'
         onChange={(e) => setQuery(e.target.value)}
@@ -100,6 +101,6 @@ export default function Home() {
           {isLoading ? <CardSkeleton /> : null}
         </>
       )}
-    </>
+    </ErrorBoundary>
   )
 }

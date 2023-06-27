@@ -6,6 +6,7 @@ import { getPokemonDetailURL } from '@/APIEndpoints'
 import { ERROR_MESSAGE } from '@/constants'
 import { IPokemonDetailAPIResponse } from '@/types'
 
+import ErrorBoundary from '@/components/ErrorBoundary'
 import PokemonDetailTableSkeleton from '@/components/PokemonDetailTableSkeleton'
 import PokemonDetailTable from '@/components/PokemonDetailTable'
 
@@ -54,19 +55,21 @@ export default function PokemonDetail() {
   return (
     <>
       <Link href='/'>← Back to Home</Link>
-      {detailError ? (
-        <div className='text-center'>
-          <h1 className='text-4xl'>
-            {detailError === ERROR_MESSAGE.NOT_FOUND
-              ? `Pokemon #${id} is not found`
-              : ERROR_MESSAGE.GENERAL}
-          </h1>
-        </div>
-      ) : isDetailLoading ? (
-        <PokemonDetailTableSkeleton />
-      ) : (
-        <PokemonDetailTable pokemon={pokemonDetail} />
-      )}
+      <ErrorBoundary>
+        {detailError ? (
+          <div className='text-center'>
+            <h1 className='text-4xl'>
+              {detailError === ERROR_MESSAGE.NOT_FOUND
+                ? `Pokemon #${id} is not found`
+                : ERROR_MESSAGE.GENERAL}
+            </h1>
+          </div>
+        ) : isDetailLoading ? (
+          <PokemonDetailTableSkeleton />
+        ) : (
+          <PokemonDetailTable pokemon={pokemonDetail} />
+        )}
+      </ErrorBoundary>
     </>
   )
 }
