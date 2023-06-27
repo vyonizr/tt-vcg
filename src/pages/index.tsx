@@ -92,12 +92,16 @@ export default function Home() {
         </div>
       ) : (
         <>
-          <ul className="grid w-[300px] grid-cols-2 gap-2">
-            {pokemons.map((pokemon) => (
-              <PokemonCardListItem key={pokemon.name} pokemon={pokemon} />
-            ))}
-            <li ref={targetRef}></li>
-          </ul>
+          {pokemons.length > 0 ? (
+            <ul className="grid w-[300px] grid-cols-2 gap-2">
+              {pokemons.map((pokemon) => (
+                <PokemonCardListItem key={pokemon.name} pokemon={pokemon} />
+              ))}
+            </ul>
+          ) : (
+            <p className="text-center">No Pokemon found</p>
+          )}
+          <div ref={targetRef}></div>
           {isLoading ? <CardSkeleton /> : null}
         </>
       )}
