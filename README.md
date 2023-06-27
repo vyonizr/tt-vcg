@@ -4,3 +4,5 @@
 - [Creating `useIntersectionObserver` Hook to support infinite scroll](https://www.30secondsofcode.org/react/s/use-intersection-observer/)
 - [Setting up Jest with NextJS](https://nextjs.org/docs/pages/building-your-application/optimizing/testing#setting-up-jest-with-the-rust-compiler)
 - [Mock IntersectionObserver in Jest environment](https://stackoverflow.com/a/62148101/11737199)
+- [Create ErrorBoundary Component](https://react-typescript-cheatsheet.netlify.app/docs/basic/getting-started/error_boundaries/)
+- [Create RecoilObserver Component](https://recoiljs.org/docs/guides/testing/)
