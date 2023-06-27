@@ -95,9 +95,9 @@ export default function Home() {
             {pokemons.map((pokemon) => (
               <PokemonCardListItem key={pokemon.name} pokemon={pokemon} />
             ))}
-            {isLoading ? <CardSkeleton /> : null}
             <li ref={targetRef}></li>
           </ul>
+          {isLoading ? <CardSkeleton /> : null}
         </>
       )}
     </>

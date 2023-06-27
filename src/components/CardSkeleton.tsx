@@ -2,7 +2,7 @@ const SKELETON_ARRAY = Array.from(Array(8), (_, index) => index)
 
 export default function CardSkeleton() {
   return (
-    <ul className='grid grid-cols-2 gap-2 w-[300px]'>
+    <ul className='grid grid-cols-2 gap-2 w-[300px] my-2'>
       {SKELETON_ARRAY.map((number) => (
         <li
           key={number}
