@@ -11,7 +11,7 @@ export const filteredPokemonState = selector({
       return pokemonList
     }
 
-    const searchRegex = new RegExp(query, 'ig')
+    const searchRegex = new RegExp(query, "i");
 
     return pokemonList.filter((pokemon) => {
       return searchRegex.test(pokemon.name)
