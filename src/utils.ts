@@ -30,7 +30,7 @@ export function extractEvolutions(
 export function convertToTitleCase(str: string) {
   if (!str) return ''
 
-  const words = str.toLowerCase().split(' ')
+  const words = str.toLowerCase().split(/-|\s/)
 
   const titleCaseWords = words.map((word) => {
     const firstLetter = word.charAt(0).toUpperCase()

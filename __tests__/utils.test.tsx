@@ -19,6 +19,12 @@ describe('Utils', () => {
     expect(convertToTitleCase('wartortle')).toBe('Wartortle')
     expect(convertToTitleCase('blastoise')).toBe('Blastoise')
     expect(convertToTitleCase('pikachu')).toBe('Pikachu')
+
+    expect(convertToTitleCase('razor-wind')).toBe('Razor Wind')
+    expect(convertToTitleCase('swords-dance')).toBe('Swords Dance')
+    expect(convertToTitleCase('solar-beam')).toBe('Solar Beam')
+    expect(convertToTitleCase('thunder-punch')).toBe('Thunder Punch')
+    expect(convertToTitleCase('fire-punch')).toBe('Fire Punch')
   })
 
   test('modulo', () => {
