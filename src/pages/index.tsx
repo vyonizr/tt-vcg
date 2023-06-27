@@ -4,6 +4,7 @@ import Link from 'next/link'
 
 import { POKEMON_LIST_URL } from '@/APIEndpoints'
 import CardSkeleton from '@/components/CardSkeleton'
+import Input from '@/components/Input'
 import {
   pokemonState,
   offsetState,
@@ -11,7 +12,7 @@ import {
 } from '@/recoil/atoms/pokemonAtom'
 import { filteredPokemonState } from '@/recoil/selectors/pokemonSelector'
 import { IPokemonAPIResponse } from '@/types'
-import { getPokemonId } from '@/utils'
+import { getPokemonId, convertToTitleCase } from '@/utils'
 import useIntersectionObserver from '@/hooks/useIntersectionObserver'
 
 const FETCH_SIZE = 8
@@ -78,11 +79,9 @@ export default function Home() {
 
   return (
     <>
-      <input
-        type='text'
+      <Input
         placeholder='Search Pokemon'
         onChange={(e) => setQuery(e.target.value)}
-        className='w-[300px] mb-4 bg-slate-100 border border-slate-400 rounded p-2'
         data-testid='query_input'
       />
       {isError ? (
@@ -101,7 +100,7 @@ export default function Home() {
                   href={getPokemonId(pokemon.url)}
                   className='p-2 block text-center lg:hover:text-white'
                 >
-                  {pokemon.name}
+                  {convertToTitleCase(pokemon.name)}
                 </Link>
               </li>
             ))}
